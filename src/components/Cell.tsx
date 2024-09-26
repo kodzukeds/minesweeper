@@ -1,26 +1,29 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./styles/cell.css";
+import { stateType, taggedType } from "../lib/types/GameTypes";
 
-export default function Cell({
-  rowPosition,
-  colPosition,
-  hasMine,
-  numberOfMinesAround,
-  isCovered,
-  onClick,
-}) {
-  const [isTagged, setIsTagged] = useState("");
-  const gameStatus = useSelector((state) => state.game.status);
+interface cellProps{
+  rowPosition: number,
+  colPosition: number,
+  hasMine: boolean,
+  numberOfMinesAround: number,
+  isCovered: boolean,
+  onClick: ( rowPosition: number, colPosition: number) => void,
+}
 
-  function handleClick(e) {
+export default function Cell({ rowPosition, colPosition, hasMine, numberOfMinesAround, isCovered, onClick,}: cellProps) {
+  const [isTagged, setIsTagged] = useState<taggedType>("");
+  const gameStatus = useSelector((state: stateType) => state.game.status);
+
+  function handleClick(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     if (!isTagged) {
       onClick(rowPosition, colPosition);
     }
   }
 
-  function handleContextMenu(e) {
+  function handleContextMenu(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     if (gameStatus === "playing") {
       let newState = "";

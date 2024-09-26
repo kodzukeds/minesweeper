@@ -21,7 +21,7 @@ export function openTheGame() {
   );
 }
 
-export function mineFieldDimensionsValidation(rows, columns) {
+export function mineFieldDimensionsValidation(rows: number, columns: number) {
   const cells = getMinefieldCells();
   return cells.length === rows * columns;
 }
@@ -30,7 +30,7 @@ function getMinefieldCells() {
   return screen.getAllByTestId("minefield-cell", { exact: false });
 }
 
-function getMinefieldCell(rowPosition, colPosition) {
+function getMinefieldCell(rowPosition: number, colPosition: number) {
   return screen.getByTestId(
     "minefield-cell cell-row" + rowPosition + "-col" + colPosition,
     { exact: true },
@@ -50,15 +50,15 @@ export function areAllCellsCovered() {
 
 export function areAllCellsDisabled() {
   const cells = getMinefieldCells();
-  return cells.every((cell) => cell.tagName === "DIV" || cell.disabled);
+  return cells.every((cell) => cell.tagName === "DIV" || (cell as HTMLButtonElement).disabled);
 }
 
 export function areAllCellsEnabled() {
   const cells = getMinefieldCells();
-  return cells.every((cell) => cell.tagName === "BUTTON" && !cell.disabled);
+  return cells.every((cell) => cell.tagName === "BUTTON" && !(cell as HTMLButtonElement).disabled);
 }
 
-export function setMockData(data) {
+export function setMockData(data: string) {
   data = data.trim();
   // TODO userEvent.keyboard('ctrl+m') try to explain why userEvent doesn't work
   fireEvent.keyDown(screen.getByTestId("minefield"), {
@@ -72,15 +72,15 @@ export function setMockData(data) {
   fireEvent.click(submitButton);
 }
 
-export function uncoverCell(rowPosition, colPosition) {
+export function uncoverCell(rowPosition: number, colPosition: number) {
   fireEvent.click(getMinefieldCell(rowPosition, colPosition));
 }
 
-export function tagCell(rowPosition, colPosition) {
+export function tagCell(rowPosition: number, colPosition: number) {
   fireEvent.contextMenu(getMinefieldCell(rowPosition, colPosition));
 }
 
-export function tagCellAsMined(rowPosition, colPosition) {
+export function tagCellAsMined(rowPosition: number, colPosition: number) {
   if (isNotTagged(rowPosition, colPosition)) {
     fireEvent.contextMenu(getMinefieldCell(rowPosition, colPosition));
   } else if (isTaggedAsInconclusive(rowPosition, colPosition)) {
@@ -89,7 +89,7 @@ export function tagCellAsMined(rowPosition, colPosition) {
   }
 }
 
-export function tagCellAsInconclusive(rowPosition, colPosition) {
+export function tagCellAsInconclusive(rowPosition: number, colPosition: number) {
   if (isNotTagged(rowPosition, colPosition)) {
     fireEvent.contextMenu(getMinefieldCell(rowPosition, colPosition));
     fireEvent.contextMenu(getMinefieldCell(rowPosition, colPosition));
@@ -98,7 +98,7 @@ export function tagCellAsInconclusive(rowPosition, colPosition) {
   }
 }
 
-export function isCellUncovered(rowPosition, colPosition) {
+export function isCellUncovered(rowPosition: number, colPosition: number) {
   const cell = getMinefieldCell(rowPosition, colPosition);
   if (cell.classList.contains("covered")) {
     return false;
@@ -106,7 +106,7 @@ export function isCellUncovered(rowPosition, colPosition) {
   return true;
 }
 
-export function isCellDisabled(rowPosition, colPosition) {
+export function isCellDisabled(rowPosition: number, colPosition: number) {
   const cell = getMinefieldCell(rowPosition, colPosition);
   return cell.tagName === "DIV";
 }
@@ -122,12 +122,12 @@ export function hasHighlightedMine() {
   return result;
 }
 
-export function isHighlightedMine(rowPosition, colPosition) {
+export function isHighlightedMine(rowPosition: number, colPosition: number) {
   const cell = getMinefieldCell(rowPosition, colPosition);
   return cell.classList.contains("highlighted");
 }
 
-function isAltTextInCell(rowPosition, colPosition, altText) {
+function isAltTextInCell(rowPosition: number, colPosition: number, altText: string) {
   const cell = getMinefieldCell(rowPosition, colPosition);
   const images = cell.getElementsByTagName("img");
   if (images.length !== 1) {
@@ -138,7 +138,7 @@ function isAltTextInCell(rowPosition, colPosition, altText) {
   }
 }
 
-export function isNumber(rowPosition, colPosition, number) {
+export function isNumber(rowPosition: number, colPosition: number, number: number) {
   return isAltTextInCell(
     rowPosition,
     colPosition,
@@ -146,33 +146,33 @@ export function isNumber(rowPosition, colPosition, number) {
   );
 }
 
-export function isCellEmpty(rowPosition, colPosition) {
+export function isCellEmpty(rowPosition: number, colPosition: number) {
   return isAltTextInCell(rowPosition, colPosition, "Empty cell");
 }
 
-export function isMine(rowPosition, colPosition) {
+export function isMine(rowPosition: number, colPosition: number) {
   return isAltTextInCell(rowPosition, colPosition, "Mine");
 }
 
-export function isTaggedAsMined(rowPosition, colPosition) {
+export function isTaggedAsMined(rowPosition: number, colPosition: number) {
   return isAltTextInCell(rowPosition, colPosition, "Flaged cell");
 }
 
-export function isTaggedAsInconclusive(rowPosition, colPosition) {
+export function isTaggedAsInconclusive(rowPosition: number, colPosition: number) {
   return isAltTextInCell(rowPosition, colPosition, "Inconclusive cell");
 }
 
-export function isWronglyTaggedMine(rowPosition, colPosition) {
+export function isWronglyTaggedMine(rowPosition: number, colPosition: number) {
   return isAltTextInCell(rowPosition, colPosition, "Wrongly tagged mine");
 }
-export function isNotTagged(rowPosition, colPosition) {
+export function isNotTagged(rowPosition: number, colPosition: number) {
   return (
     !isAltTextInCell(rowPosition, colPosition, "Flaged cell") &&
     !isAltTextInCell(rowPosition, colPosition, "Inconclusive cell")
   );
 }
 
-export function areCellsInARowUncovered(rowNumber) {
+export function areCellsInARowUncovered(rowNumber: number) {
   let result = true;
   const cells = screen.getAllByTestId(
     "minefield-cell cell-row" + rowNumber + "-col",
@@ -186,7 +186,7 @@ export function areCellsInARowUncovered(rowNumber) {
   return result;
 }
 
-export function areCellsInARowCovered(rowNumber) {
+export function areCellsInARowCovered(rowNumber: number) {
   let result = true;
   const cells = screen.getAllByTestId(
     "minefield-cell cell-row" + rowNumber + "-col",
@@ -200,7 +200,7 @@ export function areCellsInARowCovered(rowNumber) {
   return result;
 }
 
-export function areCellsAroundACellUncovered(rowPosition, colPosition) {
+export function areCellsAroundACellUncovered(rowPosition: number, colPosition: number) {
   let result = true;
   for (const direction of directions) {
     const newRowPosition = Number(rowPosition) + direction.offsetY;

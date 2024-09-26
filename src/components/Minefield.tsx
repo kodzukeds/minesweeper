@@ -6,15 +6,24 @@ import "./styles/minefield.css";
 
 import Cell from "./Cell";
 import { loseGame, winGame } from "../lib/slices/game/gameSlice";
+import { minefieldType } from "../lib/types/GameTypes";
+
+interface minefieldProps {
+  numberOfRows: number;
+  numberOfColumns: number;
+  numberOfMines: number;
+  mockData: string;
+}
 
 export default function Minefield({
   numberOfRows = 9,
   numberOfColumns = 9,
   numberOfMines = 10,
   mockData,
-}) {
-  const [minefieldData, setMinefieldData] = useState([]);
-  const [cellsToUncover, setCellsToUncover] = useState(-1);
+}: minefieldProps) {
+
+  const [minefieldData, setMinefieldData] = useState<minefieldType>([]);
+  const [cellsToUncover, setCellsToUncover] = useState<number>(-1);
   const dispatcher = useDispatch();
   const directions = [
     { offsetX: 0, offsetY: -1 },
@@ -27,7 +36,7 @@ export default function Minefield({
     { offsetX: 1, offsetY: 1 },
   ];
 
-  function uncoverNeighborCells(row, column, newMinefieldData) {
+  function uncoverNeighborCells(row:number, column: number, newMinefieldData: minefieldType) {
     let counter = 0;
     const newNumberOfRows = newMinefieldData.length;
     const newNumberOfColumns = newMinefieldData[0].length;
@@ -57,7 +66,7 @@ export default function Minefield({
     return counter;
   }
 
-  function onClick(row, column) {
+  function onClick(row: number, column: number) {
     const newMinefieldData = [...minefieldData];
     let uncoveredCells;
     if (newMinefieldData[row - 1][column - 1].isCovered === true) {

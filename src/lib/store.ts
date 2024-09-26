@@ -8,3 +8,5 @@ export const makeStore = () => {
     },
   });
 };
+
+export const store = makeStore()

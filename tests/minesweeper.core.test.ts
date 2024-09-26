@@ -253,7 +253,6 @@ defineFeature(feature, (test) => {
     given,
     when,
     then,
-    and,
   }) => {
     given("the player opens the game", () => {
       steps.openTheGame();
@@ -509,7 +508,6 @@ defineFeature(feature, (test) => {
     when,
     then,
     and,
-    pending,
   }) => {
     given("the player opens the game", () => {
       steps.openTheGame();
@@ -542,7 +540,6 @@ defineFeature(feature, (test) => {
     when,
     then,
     and,
-    pending,
   }) => {
     given("the player opens the game", () => {
       steps.openTheGame();
