@@ -26,7 +26,7 @@ export default function Cell({ rowPosition, colPosition, hasMine, numberOfMinesA
   function handleContextMenu(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     if (gameStatus === "playing") {
-      let newState = "";
+      let newState: taggedType = "";
       if (isTagged === "") {
         newState = "mined";
       } else if (isTagged === "mined") {
